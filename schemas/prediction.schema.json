@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://etri.example/schemas/prediction.schema.json",
+  "title": "Semantic Media Verification Prediction",
+  "type": "object",
+  "required": ["qid", "query", "vid", "pred_relevant_windows", "pred_saliency_scores", "result_status"],
+  "properties": {
+    "qid": {"type": ["integer", "string"]},
+    "query": {"type": "string"},
+    "vid": {"type": "string"},
+    "pred_relevant_windows": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "prefixItems": [
+          {"type": "number", "minimum": 0},
+          {"type": "number", "minimum": 0},
+          {"type": "number"}
+        ],
+        "minItems": 3,
+        "maxItems": 3
+      }
+    },
+    "pred_saliency_scores": {"type": "array", "items": {"type": "number"}},
+    "result_status": {"enum": ["PRELIMINARY_MOCK", "MODEL_PREDICTION", "ETRI_SYSTEM_OUTPUT"]}
+  },
+  "additionalProperties": true
+}
+

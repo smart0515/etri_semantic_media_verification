@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://etri.example/schemas/semantic_extension.schema.json",
+  "title": "ETRI Semantic Media Extension",
+  "type": "object",
+  "required": ["schema_version", "qid", "annotation_status", "semantic_elements", "relations"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "qid": {"type": ["integer", "string"]},
+    "annotation_status": {
+      "enum": ["CONCEPT_SAMPLE", "REFERENCE_ANNOTATION", "MOCK_PREDICTION", "MODEL_PREDICTION", "ETRI_SYSTEM_OUTPUT"]
+    },
+    "semantic_elements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["element_id", "type", "label"],
+        "properties": {
+          "element_id": {"type": "string"},
+          "type": {"enum": ["PERSON", "PERSON_GROUP", "OBJECT", "ACTION", "EVENT", "PLACE", "TOPIC", "SITUATION", "TEXT", "AUDIO_EVENT"]},
+          "label": {"type": "string"},
+          "confidence": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+          "media_unit_refs": {"type": "array", "items": {"type": "string"}}
+        },
+        "additionalProperties": true
+      }
+    },
+    "relations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["relation_id", "subject", "predicate", "object"],
+        "properties": {
+          "relation_id": {"type": "string"},
+          "subject": {"type": "string"},
+          "predicate": {"type": "string"},
+          "object": {"type": "string"},
+          "confidence": {"type": ["number", "null"], "minimum": 0, "maximum": 1}
+        }
+      }
+    }
+  },
+  "additionalProperties": true
+}
+

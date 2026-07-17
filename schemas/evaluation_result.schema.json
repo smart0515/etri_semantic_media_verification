@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://etri.example/schemas/evaluation_result.schema.json",
+  "title": "Semantic Media Verification Result",
+  "type": "object",
+  "required": ["schema_version", "result_status", "disclaimer", "dataset", "metrics"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "result_status": {"type": "string"},
+    "disclaimer": {"type": "string"},
+    "generated_at": {"type": "string"},
+    "dataset": {"type": "object"},
+    "metrics": {"type": "object"},
+    "integrity_checks": {"type": "object"}
+  },
+  "additionalProperties": true
+}
+

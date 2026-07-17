@@ -1,0 +1,23 @@
+{
+  "schema_version": "0.1.0",
+  "datasets": [
+    {
+      "name": "synthetic_qvhighlights_compatible",
+      "type": "local_jsonl",
+      "annotation": "samples/qvhighlights_compatible_sample.jsonl",
+      "extension": "samples/etri_semantic_extension_sample.jsonl",
+      "redistributable": true,
+      "purpose": "보고용 스키마·데이터 흐름 사전검증"
+    },
+    {
+      "name": "QVHighlights",
+      "type": "external_reference",
+      "annotation": null,
+      "redistributable": false,
+      "license": "CC BY-NC-SA 4.0 for annotations",
+      "approval_required": true,
+      "purpose": "연말 실제 평가 후보"
+    }
+  ]
+}
+

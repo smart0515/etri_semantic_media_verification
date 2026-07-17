@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://etri.example/schemas/qvhighlights.schema.json",
+  "title": "QVHighlights-Compatible Annotation",
+  "type": "object",
+  "required": ["qid", "query", "duration", "vid", "relevant_windows", "relevant_clip_ids", "saliency_scores"],
+  "properties": {
+    "qid": {"type": ["integer", "string"]},
+    "query": {"type": "string", "minLength": 1},
+    "duration": {"type": "number", "exclusiveMinimum": 0},
+    "vid": {"type": "string", "minLength": 1},
+    "relevant_windows": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "prefixItems": [{"type": "number", "minimum": 0}, {"type": "number", "minimum": 0}],
+        "minItems": 2,
+        "maxItems": 2
+      }
+    },
+    "relevant_clip_ids": {"type": "array", "items": {"type": "integer", "minimum": 0}},
+    "saliency_scores": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {"type": "integer", "minimum": 0, "maximum": 4},
+        "minItems": 3,
+        "maxItems": 3
+      }
+    },
+    "provenance": {"type": "object"}
+  },
+  "additionalProperties": true
+}
+

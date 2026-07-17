@@ -1,0 +1,19 @@
+{
+  "schema_version": "0.1.0",
+  "relation_types": [
+    {"name": "PERFORMS", "category": "semantic", "description": "주체가 행위를 수행함"},
+    {"name": "PARTICIPATES_IN", "category": "semantic", "description": "객체가 사건에 참여함"},
+    {"name": "OCCURS_AT", "category": "spatial", "description": "행위 또는 사건의 장소"},
+    {"name": "OCCURS_DURING", "category": "temporal", "description": "사건이 발생하는 시간 단위"},
+    {"name": "HAS_PARTICIPANT", "category": "semantic", "description": "사건의 참여자"},
+    {"name": "HAS_TOPIC", "category": "narrative", "description": "장면 또는 사건의 주제"},
+    {"name": "EVIDENCE_OF", "category": "media", "description": "미디어 단위가 element의 근거가 됨"},
+    {"name": "DESCRIBED_BY", "category": "media", "description": "element가 텍스트·음성으로 설명됨"},
+    {"name": "TEMPORALLY_BEFORE", "category": "temporal", "description": "선행 시간 관계"},
+    {"name": "TEMPORALLY_AFTER", "category": "temporal", "description": "후행 시간 관계"},
+    {"name": "TEMPORALLY_OVERLAPS", "category": "temporal", "description": "시간 구간이 겹침"},
+    {"name": "SPATIALLY_NEAR", "category": "spatial", "description": "공간적으로 인접함"},
+    {"name": "CAUSES", "category": "causal", "description": "원인-결과 관계"},
+    {"name": "DERIVED_FROM", "category": "provenance", "description": "원본 데이터에서 파생됨"}
+  ]
+}
