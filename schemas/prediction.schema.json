@@ -22,8 +22,7 @@
       }
     },
     "pred_saliency_scores": {"type": "array", "items": {"type": "number"}},
-    "result_status": {"enum": ["PRELIMINARY_MOCK", "MODEL_PREDICTION", "ETRI_SYSTEM_OUTPUT"]}
+    "result_status": {"enum": ["VERIFIED_REFERENCE", "MODEL_PREDICTION", "ETRI_SYSTEM_OUTPUT"]}
   },
   "additionalProperties": true
 }
-

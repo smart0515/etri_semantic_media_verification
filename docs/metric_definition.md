@@ -2,79 +2,58 @@
 
 ## 1. 지표 체계
 
-| ID | 범주 | 지표 | 단계 |
+| ID | 범주 | 지표 | 평가 대상 |
 |---|---|---|---|
-| M-01 | 구간 검색 | temporal IoU | 참조 구현 |
-| M-02 | 구간 검색 | MR-mAP@0.5:0.95 | 참조 구현 |
-| M-03 | 구간 검색 | R@1@IoU 0.5/0.7 | 참조 구현 |
-| H-01 | 하이라이트 | HL-mAP | 참조 구현 |
-| H-02 | 하이라이트 | HL-Hit@1 | 참조 구현 |
-| E-01 | element | Element Precision/Recall/F1 | 산식 정의 |
-| R-01 | 관계 | Relation Precision/Recall/F1 | 산식 정의 |
-| R-02 | 관계 | Relation Integrity | 참조 구현 |
-| A-01 | 재조립 | Requested Element Coverage | 산식 정의 |
-| A-02 | 재조립 | Chronology Violation Rate | 산식 정의 |
-| C-01 | 일관성 | Repeated Output Agreement | 연말 측정 |
-| C-02 | 재현성 | Cross-environment Deviation | 연말 측정 |
-| P-01 | 성능 | Stage Latency | 연말 측정 |
-| P-02 | 성능 | Throughput | 연말 측정 |
-| I-01 | 연동 | Interface Conformance | 연말 측정 |
+| MR-01 | 구간 검색 | temporal IoU | 예측·정답 구간 중첩 |
+| MR-02 | 구간 검색 | MR-mAP@0.50:0.95 | query별 ranked windows |
+| MR-03 | 구간 검색 | R@1@0.50, R@1@0.70 | 최상위 구간 적중 |
+| HL-01 | 하이라이트 | HL-mAP | 2초 clip 중요도 순위 |
+| HL-02 | 하이라이트 | HL-Hit@1 | 최상위 clip 적중 |
+| EL-01 | element | Precision, Recall, F1 | type·label·구간 일치 |
+| RL-01 | relation | Triple F1 | subject·predicate·object |
+| RL-02 | relation | Relation Integrity | node·predicate 참조 무결성 |
+| RA-01 | 재조립 | Coverage | 요구 단위 포함률 |
+| RA-02 | 재조립 | Chronology Violation | 시간 순서 위반률 |
+| CS-01 | 일관성 | Repeated Output Agreement | 동일 입력 반복 결과 |
+| PF-01 | 성능 | Stage Latency | 단계별 처리시간 |
+| PF-02 | 성능 | Throughput | 단위 시간 처리량 |
+| IF-01 | 연동 | Interface Conformance | 입출력 계약 준수율 |
 
-## 2. 핵심 산식
+## 2. 구간 지표
 
-### 2.1 temporal IoU
-
-```text
-tIoU = length(Predicted ∩ Reference) / length(Predicted ∪ Reference)
-```
-
-### 2.2 MR-mAP
-
-각 query의 예측 구간을 신뢰도 순으로 정렬하고 tIoU 임계값별 Average Precision을 계산한다. tIoU 0.50~0.95, 0.05 간격의 결과를 평균한다.
-
-### 2.3 R@1
-
-가장 높은 점수의 예측 구간이 하나 이상의 정답 구간과 지정 tIoU 이상으로 겹치면 적중으로 본다.
-
-### 2.4 HL-mAP / Hit@1
-
-각 2초 클립의 중요도 예측을 정답 점수와 비교한다. 정답 2, 3, 4 이상을 각각 Fair, Good, VeryGood positive로 정의한다. Hit@1은 가장 높은 예측 점수의 클립이 positive인 질의의 비율이다.
-
-### 2.5 Element F1
+두 구간 `A=[a1,a2]`, `B=[b1,b2]`의 temporal IoU는 다음과 같다.
 
 ```text
-Precision = 정답 element와 일치한 예측 element / 전체 예측 element
-Recall    = 정답 element와 일치한 예측 element / 전체 정답 element
-F1        = 2 * Precision * Recall / (Precision + Recall)
+intersection = max(0, min(a2,b2) - max(a1,b1))
+union        = max(a2,b2) - min(a1,b1)
+tIoU         = intersection / union
 ```
 
-element 일치는 `type`, 표준화된 `label`, 미디어 시간 구간의 tIoU를 조합하여 판정한다. 표준화 규칙은 연말 annotation guideline에서 확정한다.
+MR-mAP는 tIoU 0.50부터 0.95까지 0.05 간격 임계값에서 Average Precision을 계산한 뒤 평균한다. R@1은 query별 최고 점수 구간이 대표 임계값을 만족한 비율이다.
 
-### 2.6 Relation F1
+## 3. 하이라이트 지표
 
-subject·predicate·object 삼중항이 정답과 동일할 때 true positive로 계산한다. subject와 object의 element 동일성 판정은 Element matching 규칙을 따른다.
+각 클립에 대해 평가자 점수와 예측 중요도를 비교한다. Fair, Good, VeryGood 등급별 positive clip을 구성하고 AP와 Hit@1을 산출한다.
 
-### 2.7 Relation Integrity
+## 4. element·relation 지표
 
-```text
-Relation Integrity = 유효 node와 허용 predicate를 모두 사용한 relation / 전체 relation
-```
+element는 유형, 정규화 label과 시간 구간을 조합해 일치 여부를 판정한다. relation은 `subject-predicate-object` 삼중항을 비교하며, Relation Integrity는 relation 양 끝점과 predicate 선언 여부를 검사한다.
 
-## 3. 측정 조건
+## 5. 재조립·운영 지표
 
-- 동일 dataset split, query, video, clip length를 사용한다.
-- 검증시스템과 ETRI 대상 시스템에 동일한 정규화 규칙을 적용한다.
-- 실행 전 시스템, 모델, 코드, 설정 버전을 고정한다.
-- 성능 측정 시 warm-up 횟수, 반복 횟수, 하드웨어를 기록한다.
-- 정량 판정 기준값은 ETRI와 합의 전에 임의로 확정하지 않는다.
+- Coverage: 요구 element와 media unit 중 선택 결과에 포함된 비율
+- Chronology Violation: 시간순 정책을 위반한 인접 단위의 비율
+- Repeated Output Agreement: 동일 입력 반복 결과의 일치도
+- Stage Latency: 수집, 변환, 평가, 계획 생성 단계별 소요시간
+- Interface Conformance: Prediction Schema와 오류 계약 준수 비율
 
-## 4. 결과 표시 규칙
+## 6. 결과 판정
 
-| 상태 | 의미 |
+| 상태 | 정의 |
 |---|---|
-| DESIGN_DEFINED | 산식·입력·출력 정의 |
-| PRELIMINARY_MOCK | 합성 데이터·Mock 출력 결과 |
-| MODEL_PREDICTION | 실제 모델 추론 결과 |
-| ETRI_SYSTEM_OUTPUT | ETRI 대상 시스템 실제 출력 |
-| JOINT_VERIFIED | 상호 입회 확인된 결과 |
+| PASS | 입력·출력·지표·증빙 요건 충족 |
+| CONDITIONAL_PASS | 경미한 이슈와 조치 조건을 포함해 충족 |
+| FAIL | 핵심 계약 또는 합의 기준 미충족 |
+| EXCLUDED | 시험 범위에서 사전 제외된 항목 |
 
+기준값, 표본 수와 예외 규칙은 대상 시스템 시험계획서에서 실행 프로파일별로 고정한다.

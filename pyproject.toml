@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "etri-semantic-media-verification"
-version = "0.1.0"
-description = "Report-stage reference architecture for semantic media verification"
+version = "1.0.0"
+description = "Semantic media verification system and evaluation toolkit"
 requires-python = ">=3.10"
 dependencies = []
 
@@ -14,4 +14,3 @@ semantic-media-verify = "semantic_validator.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
-

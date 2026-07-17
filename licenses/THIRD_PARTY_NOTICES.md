@@ -1,25 +1,23 @@
 # Third-Party Notices
 
-## 현 납품본에 포함된 제3자 자원
+## Python
 
-현 소스코드는 Python 표준 라이브러리만 사용한다. QVHighlights annotation, YouTube 영상, Moment-DETR 소스코드, 학습 가중치는 납품본에 포함되지 않았다.
+검증시스템은 Python 3.10 이상의 표준 라이브러리를 사용한다. Python은 PSF License에 따라 배포된다.
 
 ## QVHighlights
 
-- Project: QVHighlights / Moment-DETR
-- Repository: https://github.com/jayleicn/moment_detr
-- Paper: https://arxiv.org/abs/2107.09609
-- Annotation license stated by the repository: CC BY-NC-SA 4.0
-- Code license stated by the repository: MIT
-- Delivery status: reference only; original files are not redistributed
+QVHighlights의 공개 annotation 구조와 평가 관례를 참조하였다. QVHighlights annotation은 CC BY-NC-SA 4.0 조건이 적용된다.
 
-QVHighlights를 실제 시험에 사용하려면 출처 표시, 비영리 조건, 동일조건변경허락 조건과 유상 용역에서의 사용 가능성을 ETRI와 사전 검토해야 한다.
+본 납품물에는 QVHighlights 원본 annotation, YouTube 영상 또는 원본 미디어가 포함되지 않는다. `samples/qvhighlights_compatible_sample.jsonl`은 구조 검증을 위해 신규 작성한 데이터이다.
 
-## 합성 샘플
+## Moment-DETR
 
-`samples/` 폴더의 qid, query, vid, semantic element, relation은 스키마와 절차를 설명하기 위해 새로 작성된 합성 샘플이다. 외부 영상이나 annotation 레코드를 복제하지 않았다.
+Moment-DETR 저장소의 공개 데이터 형식 및 평가 인터페이스를 참조하였다. 해당 저장소의 코드는 MIT License로 공개되어 있다.
 
-## 연말 도입 예정 항목
+본 납품물에는 Moment-DETR 소스코드를 복사하지 않았으며, 평가 산식은 독립적인 참조 구현으로 작성하였다.
 
-PyTorch, FFmpeg, 멀티모달 모델은 현 납품본에 포함되지 않은 도입 후보이다. 최종 선정 전 버전, 라이선스, 특허 조항, 가중치·학습 데이터 제약, 재배포 의무를 확인한다.
+## 관리 원칙
 
+- 제3자 소프트웨어·데이터를 추가할 때 버전, 용도, 라이선스, 취득 경로와 배포 여부를 기록한다.
+- 외부 영상과 annotation은 납품 코드와 분리하고 접근 권한과 이용 범위를 관리한다.
+- 실행 환경별 사용 내역은 `open_source_usage.csv`를 기준으로 갱신한다.

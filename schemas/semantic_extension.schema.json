@@ -8,7 +8,7 @@
     "schema_version": {"type": "string"},
     "qid": {"type": ["integer", "string"]},
     "annotation_status": {
-      "enum": ["CONCEPT_SAMPLE", "REFERENCE_ANNOTATION", "MOCK_PREDICTION", "MODEL_PREDICTION", "ETRI_SYSTEM_OUTPUT"]
+      "enum": ["CONCEPT_SAMPLE", "REFERENCE_ANNOTATION", "MODEL_PREDICTION", "ETRI_SYSTEM_OUTPUT"]
     },
     "semantic_elements": {
       "type": "array",
@@ -42,4 +42,3 @@
   },
   "additionalProperties": true
 }
-

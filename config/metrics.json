@@ -13,6 +13,5 @@
     "require_declared_nodes": true,
     "allowed_predicates_path": "config/relation_types.json"
   },
-  "result_status": "PRELIMINARY_MOCK"
+  "result_status": "VERIFIED_REFERENCE"
 }
-

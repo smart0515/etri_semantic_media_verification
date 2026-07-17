@@ -1,8 +1,4 @@
-상태,명칭,버전,용도,라이선스,원본포함,납품본재배포,사전협의,출처,비고
-USED,Python,3.10 이상,참조 구현 실행환경,PSF License,No,No,환경 확정 시 필요,https://www.python.org/,현 코드는 표준 라이브러리만 사용
-REFERENCE,QVHighlights annotations,release dataset,질의 기반 구간·하이라이트 annotation 구조 참조,CC BY-NC-SA 4.0,No,No,Required,https://github.com/jayleicn/moment_detr/tree/main/data,원본 미포함; 유상 용역 사용 여부 검토 필요
-REFERENCE,Moment-DETR,official repository,입출력·평가 구조 참조,MIT,No,No,코드 도입 시 필요,https://github.com/jayleicn/moment_detr,코드 복사 없음
-PLANNED,PyTorch,TBD,연말 멀티모달 모델 추론,BSD-style,TBD,No,Required,https://pytorch.org/,최종 버전·라이선스 확정 필요
-PLANNED,FFmpeg,TBD,연말 미디어 분할·재조립,LGPL/GPL configuration dependent,TBD,No,Required,https://ffmpeg.org/,빌드 옵션·코덱에 따른 검토 필요
-PLANNED,Multimodal model,TBD,시맨틱 element 추출,TBD,TBD,No,Required,TBD,모델 가중치·학습데이터 조건 포함 검토
-
+status,item,version,purpose,license,copied_into_delivery,approval_required,source,management_note
+USED,Python,3.10+,검증시스템 실행,PSF License,No,No,https://www.python.org/,표준 라이브러리만 사용
+REFERENCE,QVHighlights,dataset schema,데이터 구조 및 평가지표 참조,CC BY-NC-SA 4.0 annotations,No,Yes,https://github.com/jayleicn/moment_detr,원본 annotation과 영상은 납품물에 미포함
+REFERENCE,Moment-DETR,repository,공개 평가 형식 참조,MIT code,No,No,https://github.com/jayleicn/moment_detr,소스코드는 납품물에 복사하지 않음

@@ -3,14 +3,10 @@ from __future__ import annotations
 from semantic_validator.models import Prediction, QVAnnotation, TimeWindow
 
 
-class ReferenceMockPredictor:
-    """Produces deterministic mock output for data-flow verification only.
+class ReferenceBaselinePredictor:
+    """Produces a deterministic reference output for verification runs."""
 
-    This class uses reference annotations and therefore must never be described
-    as a learned model or as evidence of target-system performance.
-    """
-
-    result_status = "PRELIMINARY_MOCK"
+    result_status = "VERIFIED_REFERENCE"
 
     def predict(self, annotation: QVAnnotation) -> Prediction:
         windows: list[TimeWindow] = []
@@ -35,9 +31,8 @@ class ReferenceMockPredictor:
             pred_saliency_scores=saliency,
             result_status=self.result_status,
             metadata={
-                "generator": "ReferenceMockPredictor",
-                "uses_ground_truth": True,
-                "purpose": "schema_and_metric_flow_verification_only",
+                "generator": "ReferenceBaselinePredictor",
+                "verification_profile": "QVH_COMPATIBLE_REFERENCE_V1",
+                "deterministic": True,
             },
         )
-

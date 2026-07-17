@@ -7,7 +7,7 @@
       "annotation": "samples/qvhighlights_compatible_sample.jsonl",
       "extension": "samples/etri_semantic_extension_sample.jsonl",
       "redistributable": true,
-      "purpose": "보고용 스키마·데이터 흐름 사전검증"
+      "purpose": "QVHighlights 호환 참조 검증 프로파일"
     },
     {
       "name": "QVHighlights",
@@ -16,8 +16,7 @@
       "redistributable": false,
       "license": "CC BY-NC-SA 4.0 for annotations",
       "approval_required": true,
-      "purpose": "연말 실제 평가 후보"
+      "purpose": "외부 벤치마크 연계 프로파일"
     }
   ]
 }
-

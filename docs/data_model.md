@@ -54,7 +54,7 @@ qid                 SYN-001
 element_id          SYN-001:E001
 media unit ID       SYN-001:C001
 relation ID         SYN-001:R001
-test execution ID   TC-001:RUN-20261201-001
+test execution ID   TC-001:RUN-20260717-001
 ```
 
 ## 6. 확장 원칙
@@ -63,4 +63,4 @@ test execution ID   TC-001:RUN-20261201-001
 - 알 수 없는 실제 추론값은 `null`로 표현하며 임의 신뢰도를 기재하지 않는다.
 - 모델 출력에는 `model_version`, `confidence`, `generated_at`을 추가한다.
 - 수작 annotation에는 `annotator_id`, `guideline_version`, `review_status`를 추가한다.
-- 연말 전송 프로토콜 확정 시 `transport_unit_id`, `payload_offset`, `codec`, `stream_id`를 MediaUnit에 추가한다.
+- 전송 프로토콜 연동 시 `transport_unit_id`, `payload_offset`, `codec`, `stream_id`를 MediaUnit 확장 필드로 사용한다.

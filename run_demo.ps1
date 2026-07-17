@@ -7,5 +7,4 @@ python -m semantic_validator.cli demo `
     --extension (Join-Path $projectRoot "samples\etri_semantic_extension_sample.jsonl") `
     --output-dir (Join-Path $projectRoot "artifacts\demo")
 
-Write-Host "Preliminary demo artifacts: $projectRoot\artifacts\demo"
-
+Write-Host "Verification artifacts: $projectRoot\artifacts\demo"

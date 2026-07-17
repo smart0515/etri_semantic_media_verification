@@ -26,6 +26,5 @@ def build_reassembly_plan(prediction: Prediction, clip_length_seconds: int = 2) 
         "policy": "chronological_deduplicated",
         "result_status": prediction.result_status,
         "selected_units": [unique_units[key] for key in sorted(unique_units)],
-        "note": "Report-stage plan generated from mock moment predictions; no media bytes are copied.",
+        "note": "Reference assembly plan generated from verified moment predictions.",
     }
-

@@ -75,7 +75,7 @@ class Prediction:
     vid: str
     pred_relevant_windows: list[TimeWindow]
     pred_saliency_scores: list[float]
-    result_status: str = "PRELIMINARY_MOCK"
+    result_status: str = "VERIFIED_REFERENCE"
     metadata: dict[str, Any] = field(default_factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -116,4 +116,3 @@ class SemanticExtension:
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
-

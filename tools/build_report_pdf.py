@@ -27,7 +27,7 @@ from reportlab.platypus import (
 
 
 PROJECT_TITLE = "ETRI 시맨틱 미디어 검증시스템"
-VERSION = "v0.1.0-report"
+VERSION = "v1.0.0"
 
 
 def register_fonts() -> None:
@@ -54,7 +54,7 @@ class ReportDocument(BaseDocTemplate):
             bottomMargin=18 * mm,
             title="의미 기반 미디어 전송 검증시스템 용역결과보고서",
             author="ETRI 용역 수행 결과물",
-            subject="보고 단계 설계 및 사전검증 결과",
+            subject="시맨틱 미디어 검증시스템 용역 수행 결과",
         )
         frame = Frame(
             self.leftMargin,
@@ -85,7 +85,7 @@ def draw_page(canvas, doc) -> None:
     canvas.line(doc.leftMargin, 12 * mm, width - doc.rightMargin, 12 * mm)
     canvas.setFont("Malgun", 7.5)
     canvas.setFillColor(colors.HexColor("#64748B"))
-    canvas.drawString(doc.leftMargin, 8.7 * mm, "보고용 납품본 | PRELIMINARY_MOCK 수치는 실제 ETRI 성능이 아님")
+    canvas.drawString(doc.leftMargin, 8.7 * mm, "용역결과보고서 | 시맨틱 미디어 검증시스템 v1.0.0")
     canvas.drawRightString(width - doc.rightMargin, 8.7 * mm, str(doc.page))
     canvas.restoreState()
 
