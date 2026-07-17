@@ -6,44 +6,13 @@
 |---|---|
 | 발주기관 | 한국전자통신연구원(ETRI) |
 | 용역명 | 의미 기반 미디어 전송 검증시스템 및 멀티모달 시맨틱 미디어 구조 연구 |
-| 문서 버전 | v1.0.0 |
+| 문서 버전 | v1.1.0 |
 | 작성일 | 2026-07-17 |
 | 문서 상태 | 최종 납품본 |
 
 본 보고서는 자연어 요구에 맞는 미디어 구간과 의미 요소를 어떻게 표현하고, 시스템 출력이 그 의미를 얼마나 충족하는지 평가하기 위해 수행한 데이터 구성, 평가 방법, 구현 및 적용 결과를 기술한다.
 
 <!-- PAGEBREAK -->
-
-# 요약
-
-## 수행한 내용
-
-본 과제에서는 QVHighlights의 query-시간 구간-2초 클립-중요도 구조를 시맨틱 미디어 검증의 기반으로 사용하였다. 여기에 인물, 행위, 사건, 장소, 주제 등의 element와 element 사이의 시간·공간·서사 관계를 별도 JSON으로 확장하였다.
-
-검증시스템은 다음 순서로 동작한다.
-
-1. 자연어 query와 기준 구간·클립 중요도를 읽는다.
-2. 구간을 2초 media unit과 연결한다.
-3. 각 media unit에서 나타나는 element와 relation을 읽는다.
-4. 대상 시스템 출력을 동일한 prediction 구조로 변환한다.
-5. 구간 검색, 하이라이트, element, relation 및 재조립 결과를 비교한다.
-6. prediction, 지표와 재조립 계획을 JSON/JSONL로 저장한다.
-
-## 적용 결과
-
-QVHighlights 구조 호환 사례 3건을 구성하여 농구 장면, 피자 조리 과정, 기술 발표 장면에 적용하였다. 세 사례는 연속 구간, 순차적 행위, 떨어진 복수 구간이라는 서로 다른 의미 검색 패턴을 포함한다.
-
-| 검증 항목 | 결과 |
-|---|---:|
-| 참조 사례 | 3건 |
-| semantic element | 14건 |
-| relation | 17건 |
-| MR-mAP@0.50:0.95 | 91.6667 |
-| MR-R1@0.50 / 0.70 | 100.0000 / 100.0000 |
-| HL-mAP Fair / Good / VeryGood | 100.0000 / 99.0741 / 83.3333 |
-| Element F1 | 100.0000 |
-| Relation F1 | 100.0000 |
-| Relation Integrity | 100.0000 |
 
 # 1. 검증 문제와 접근 방법
 
@@ -487,3 +456,54 @@ etri_semantic_media_verification/
 3. QVHighlights reference evaluation code: https://github.com/jayleicn/moment_detr/blob/main/standalone_eval/eval.py
 4. QVHighlights paper: https://arxiv.org/abs/2107.09609
 5. Moment-DETR repository and license: https://github.com/jayleicn/moment_detr
+
+<!-- PAGEBREAK -->
+
+# 최종 요약
+
+## 본 과제에서 실제로 수행한 작업
+
+본 과제에서는 자연어 요구에 맞는 영상 구간을 찾는 것에서 끝나지 않고, 해당 구간이 왜 요구 의미를 충족하는지까지 확인할 수 있는 검증 흐름을 구현하였다. 수행 내용은 다음과 같다.
+
+1. QVHighlights JSONL의 `qid`, `query`, `duration`, `relevant_windows`, `relevant_clip_ids`, `saliency_scores`를 읽는 데이터 adapter를 구현하였다.
+2. 원본 데이터 구조에 인물·행위·사건·장소·주제 element와 시간·행위·공간·서사 relation을 연결하는 시맨틱 확장 모델을 설계하였다.
+3. 농구 장면, 피자 조리 과정, 기술 발표 장면의 3개 검증 사례를 구성하고, element 14건, 2초 media unit 15건, relation 17건을 작성하였다.
+4. 대상 시스템의 검색 구간, 클립 중요도, element, relation 및 선택 전송 단위를 공통 Prediction 형식으로 변환하는 adapter 경계를 구현하였다.
+5. 시간 구간 검색, 하이라이트 중요도, element 일치, relation 일치, relation 참조 무결성 및 재조립 순서를 평가하는 코드를 구현하였다.
+6. 입력 annotation, prediction, 평가 결과와 재조립 계획을 JSON/JSONL 증빙으로 남기는 실행 절차를 구성하고 단위·통합시험으로 확인하였다.
+
+## 의미를 평가한 방법
+
+자연어 query에서 요구하는 의미를 element와 relation의 조건으로 표현하고, 대상 출력과 정답을 다음 순서로 비교하였다.
+
+1. 예측 구간과 정답 구간의 temporal IoU를 계산하여 의미가 나타난 시간을 올바르게 찾았는지 평가하였다.
+2. 2초 단위 클립 중요도를 Fair, Good, VeryGood 기준으로 나누어 필요한 장면을 우선 선택했는지 평가하였다.
+3. element의 유형, 정규화 label과 시간 구간을 함께 비교하여 Precision, Recall, F1을 계산하였다.
+4. 매칭된 element ID를 기준으로 `subject-predicate-object` relation 삼중항을 비교하여 의미 관계의 정확성을 계산하였다.
+5. relation의 시작·끝 node가 실제 element 또는 media unit을 참조하는지 검사하여 구조 무결성을 확인하였다.
+6. 선택된 media unit이 시간순으로 정렬되고 누락·중복 없이 재조립 계획으로 생성되는지 확인하였다.
+
+## 적용 사례에서 확인한 내용
+
+| 사례 | 검증한 의미 패턴 | 확인 내용 |
+|---|---|---|
+| 농구 장면 | 하나의 연속 구간에서 인물과 행위 연결 | 인물-PERFORMS-농구 관계와 관련 클립 선택 |
+| 피자 조리 | 여러 행위가 순서대로 이어지는 과정 | 반죽, 토핑, 굽기 element와 BEFORE 관계 |
+| 기술 발표 | 떨어진 복수 구간에 핵심 내용 분산 | 복수 moment 검색과 중요 클립 재조립 |
+
+## 최종 검증 결과
+
+| 검증 항목 | 결과 |
+|---|---:|
+| QVHighlights 구조 호환 사례 | 3건 |
+| semantic element | 14건 |
+| media unit | 15건 |
+| relation / 유효 relation | 17건 / 17건 |
+| MR-mAP@0.50:0.95 | 91.6667 |
+| MR-R1@0.50 / 0.70 | 100.0000 / 100.0000 |
+| HL-mAP Fair / Good / VeryGood | 100.0000 / 99.0741 / 83.3333 |
+| Element F1 | 100.0000 |
+| Relation F1 | 100.0000 |
+| Relation Integrity | 100.0000 |
+
+최종 납품물은 QVHighlights 호환 데이터를 읽고, 대상 출력을 공통 구조로 변환한 뒤, 구간·중요도·element·relation·재조립 결과를 동일한 절차로 평가할 수 있는 검증시스템과 그 수행 방법 및 결과를 정리한 보고서로 구성하였다.

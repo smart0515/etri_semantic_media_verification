@@ -2,7 +2,7 @@
 
 | 번호 | 산출물 | 경로 | 내용 |
 |---:|---|---|---|
-| 1 | 용역결과보고서 PDF | `deliverables/ETRI_시맨틱_미디어_용역결과보고서.pdf` | 최종 보고서 |
+| 1 | 용역결과보고서 Word | `deliverables/ETRI_시맨틱_미디어_용역결과보고서.docx` | 최종 보고서 |
 | 2 | 보고서 원문 | `docs/final_report.md` | Markdown 편집본 |
 | 3 | 검증시스템 소스 | `src/semantic_validator/` | Python 참조 구현 |
 | 4 | 실행 설정 | `config/` | 데이터셋·지표·relation 설정 |

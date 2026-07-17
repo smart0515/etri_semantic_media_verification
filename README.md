@@ -6,7 +6,7 @@
 
 | 구분 | 경로 | 주요 내용 |
 |---|---|---|
-| 용역결과보고서 | `deliverables/ETRI_시맨틱_미디어_용역결과보고서.pdf` | 과업 수행 결과와 검증 결과 |
+| 용역결과보고서 | `deliverables/ETRI_시맨틱_미디어_용역결과보고서.docx` | 과업 수행 방법과 검증 결과를 정리한 Word 보고서 |
 | 보고서 원문 | `docs/final_report.md` | 편집 가능한 Markdown 원문 |
 | 검증시스템 | `src/semantic_validator/` | 데이터 변환, 평가, 관계 검증, 재조립 계획 |
 | 데이터 계약 | `schemas/`, `config/` | JSON Schema, 지표 및 관계 유형 설정 |
@@ -84,6 +84,19 @@ artifacts/demo/
 ```
 
 기본 납품 시험은 데이터 adapter, 구간 지표, 통합 실행, 결과 상태 및 증빙 파일 생성을 검사한다.
+
+`python.exe`가 기본 경로에 없으면 `ETRI_PYTHON` 환경변수에 Python 실행 파일 경로를 지정할 수 있다.
+
+## Word 보고서 재생성
+
+Word가 설치된 Windows 환경에서 다음 순서로 최종 보고서를 재생성하고 구조를 점검한다.
+
+```powershell
+python tools/build_report_docx.py
+$report = (Resolve-Path "deliverables/ETRI_시맨틱_미디어_용역결과보고서.docx").Path
+powershell -ExecutionPolicy Bypass -File tools/finalize_report_word.ps1 -DocumentPath $report
+python tools/audit_report_docx.py
+```
 
 ## 참조 검증 결과
 
